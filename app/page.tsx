@@ -8,43 +8,32 @@ export default function Home() {
   return (
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
-      <section className="w-full py-12 md:py-24 lg:py-32 bg-gradient-to-b from-orange-50 to-white">
+      <section className="w-full py-18 md:py-30 lg:py-40 bg-gradient-to-b from-orange-50 to-white">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 items-center">
-            <div className="flex flex-col justify-center space-y-4">
-              <div className="space-y-2">
-                <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none text-orange-600">
-                  Daily Dose
-                </h1>
-                <p className="max-w-[600px] text-gray-500 md:text-xl">
-                  Sip into happiness with our handcrafted milk teas. Made with
-                  love, served with joy!
-                </p>
-              </div>
-              <div className="flex flex-col gap-2 min-[400px]:flex-row">
-                <Link href="/menu">
-                  <Button className="bg-orange-500 hover:bg-orange-600">
-                    Order Now <ArrowRight className="ml-2 h-4 w-4" />
-                  </Button>
-                </Link>
-                <Link href="#featured">
-                  <Button
-                    variant="outline"
-                    className="border-orange-200 text-orange-500 hover:bg-orange-50"
-                  >
-                    View Menu
-                  </Button>
-                </Link>
-              </div>
+          <div className="items-center flex flex-col justify-center space-y-4">
+            <div className="space-y-3">
+              <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none text-orange-600 text-center">
+                Daily Dose
+              </h1>
+              <p className="max-w-[600px] text-gray-500 md:text-xl text-center">
+                Sip into happiness with our handcrafted milk teas. Made with
+                love, served with joy!
+              </p>
             </div>
-            <div className="flex justify-center lg:justify-end">
-              <Image
-                src="/placeholder.svg?height=550&width=450"
-                width={450}
-                height={550}
-                alt="Bubble tea collection"
-                className="rounded-xl object-cover"
-              />
+            <div className="flex flex-col gap-2 min-[400px]:flex-row">
+              <Link href="/menu">
+                <Button className="bg-orange-500 hover:bg-orange-600 cursor-pointer">
+                  Order Now <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </Link>
+              <Link href="#featured">
+                <Button
+                  variant="outline"
+                  className="border-orange-200 text-orange-500 hover:bg-orange-50  cursor-pointer"
+                >
+                  View Menu
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
@@ -72,8 +61,7 @@ export default function Home() {
                     <Image
                       src={product.image || "/placeholder.svg"}
                       alt={product.name}
-                      width={300}
-                      height={300}
+                      fill={true}
                       className="object-cover transition-transform group-hover:scale-105"
                     />
                   </div>
@@ -101,7 +89,7 @@ export default function Home() {
           </div>
           <div className="flex justify-center mt-8">
             <Link href="/menu">
-              <Button className="bg-orange-500 hover:bg-orange-600">
+              <Button className="bg-orange-500 hover:bg-orange-600 cursor-pointer">
                 View All Drinks <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </Link>
@@ -115,7 +103,7 @@ export default function Home() {
           <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 items-center">
             <div className="flex justify-center">
               <Image
-                src="/placeholder.svg?height=400&width=400"
+                src="/About.png"
                 width={400}
                 height={400}
                 alt="Our shop"
@@ -218,7 +206,7 @@ export default function Home() {
             </div>
             <div className="flex flex-col gap-2 min-[400px]:flex-row">
               <Link href="/menu">
-                <Button className="bg-orange-500 hover:bg-orange-600">
+                <Button className="bg-orange-500 hover:bg-orange-600 cursor-pointer">
                   Order Now <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </Link>
@@ -236,21 +224,21 @@ const featuredProducts = [
     name: "Classic Brown Sugar",
     description: "Our signature milk tea with brown sugar pearls",
     price: 5.99,
-    image: "/placeholder.svg?height=300&width=300",
+    image: "/brownsugar.jpg?height=300&width=300",
   },
   {
     id: 2,
     name: "Taro Milk Tea",
     description: "Creamy taro flavor with chewy pearls",
     price: 6.49,
-    image: "/placeholder.svg?height=300&width=300",
+    image: "/taromilktea.jpg?height=300&width=300",
   },
   {
     id: 3,
     name: "Strawberry Matcha",
     description: "Fresh strawberry with premium matcha",
     price: 6.99,
-    image: "/placeholder.svg?height=300&width=300",
+    image: "/strawberrymatcha.jpg?height=300&width=300",
   },
 ];
 
@@ -259,18 +247,18 @@ const testimonials = [
     name: "Sarah L.",
     comment:
       "The brown sugar milk tea is absolutely divine! I come here at least twice a week.",
-    avatar: "/placeholder.svg?height=40&width=40",
+    avatar: "/sarah.jpg?height=40&width=40",
   },
   {
     name: "Mike T.",
     comment:
       "Best boba shop in town! The taro milk tea is my favorite and the staff is always friendly.",
-    avatar: "/placeholder.svg?height=40&width=40",
+    avatar: "/mike.jpg?height=40&width=40",
   },
   {
     name: "Jessica K.",
     comment:
       "I love the variety of flavors and toppings. The strawberry matcha is a must-try!",
-    avatar: "/placeholder.svg?height=40&width=40",
+    avatar: "/jessica.jpg?height=40&width=40",
   },
 ];

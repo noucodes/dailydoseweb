@@ -42,18 +42,6 @@ export default function Footer() {
             >
               Menu
             </Link>
-            <Link
-              href="#"
-              className="text-sm text-gray-500 hover:text-orange-500"
-            >
-              About Us
-            </Link>
-            <Link
-              href="#"
-              className="text-sm text-gray-500 hover:text-orange-500"
-            >
-              Contact
-            </Link>
           </div>
           <div className="flex flex-col space-y-4">
             <h3 className="text-lg font-medium">Contact Us</h3>

@@ -27,6 +27,7 @@ export default function MenuPage() {
   const specialtyTeas = filteredProducts.filter(
     (p) => p.category === "specialty"
   );
+  const coffees = filteredProducts.filter((p) => p.category === "coffee");
 
   // Handle quantity change
   const handleQuantityChange = (productId: number, change: number) => {
@@ -59,7 +60,7 @@ export default function MenuPage() {
           Our Menu
         </h1>
         <p className="max-w-[700px] text-gray-500 md:text-xl">
-          Explore our delicious selection of handcrafted milk teas and find your
+          Explore our delicious selection of handcrafted beverage and find your
           perfect sip.
         </p>
         <div className="w-full max-w-md">
@@ -77,15 +78,16 @@ export default function MenuPage() {
       </div>
 
       <Tabs defaultValue="all" className="mt-8">
-        <TabsList className="grid w-full grid-cols-4 mb-8">
+        <TabsList className="grid mx-auto w-[60%] grid-cols-5 mb-8">
           <TabsTrigger value="all">All</TabsTrigger>
           <TabsTrigger value="classic">Classic</TabsTrigger>
+          <TabsTrigger value="coffee">Coffee</TabsTrigger>
           <TabsTrigger value="fruit">Fruit</TabsTrigger>
           <TabsTrigger value="specialty">Specialty</TabsTrigger>
         </TabsList>
 
         <TabsContent value="all" className="mt-0">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {filteredProducts.map((product) => (
               <ProductCard
                 key={product.id}
@@ -99,7 +101,7 @@ export default function MenuPage() {
         </TabsContent>
 
         <TabsContent value="classic" className="mt-0">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {classicTeas.map((product) => (
               <ProductCard
                 key={product.id}
@@ -112,8 +114,22 @@ export default function MenuPage() {
           </div>
         </TabsContent>
 
+        <TabsContent value="coffee" className="mt-0">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {coffees.map((product) => (
+              <ProductCard
+                key={product.id}
+                product={product}
+                quantity={quantities[product.id] || 0}
+                onQuantityChange={handleQuantityChange}
+                onAddToCart={handleAddToCart}
+              />
+            ))}
+          </div>
+        </TabsContent>
+
         <TabsContent value="fruit" className="mt-0">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {fruitTeas.map((product) => (
               <ProductCard
                 key={product.id}
@@ -127,7 +143,7 @@ export default function MenuPage() {
         </TabsContent>
 
         <TabsContent value="specialty" className="mt-0">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {specialtyTeas.map((product) => (
               <ProductCard
                 key={product.id}
@@ -187,8 +203,7 @@ function ProductCard({
         <Image
           src={product.image || "/placeholder.svg"}
           alt={product.name}
-          width={300}
-          height={300}
+          fill={true}
           className="object-cover"
         />
         <Badge className={`absolute top-2 right-2 ${stockColor}`}>
@@ -244,7 +259,7 @@ const products: Product[] = [
     name: "Classic Brown Sugar",
     description: "Our signature milk tea with brown sugar pearls",
     price: 5.99,
-    image: "/placeholder.svg?height=300&width=300",
+    image: "/brownsugar.jpg?height=300&width=300",
     stock: 50,
     category: "classic",
   },
@@ -253,7 +268,7 @@ const products: Product[] = [
     name: "Taro Milk Tea",
     description: "Creamy taro flavor with chewy pearls",
     price: 6.49,
-    image: "/placeholder.svg?height=300&width=300",
+    image: "/taromilktea.jpg?height=300&width=300",
     stock: 35,
     category: "classic",
   },
@@ -262,7 +277,7 @@ const products: Product[] = [
     name: "Strawberry Matcha",
     description: "Fresh strawberry with premium matcha",
     price: 6.99,
-    image: "/placeholder.svg?height=300&width=300",
+    image: "/strawberrymatcha.jpg?height=300&width=300",
     stock: 25,
     category: "specialty",
   },
@@ -271,7 +286,7 @@ const products: Product[] = [
     name: "Mango Passion Fruit",
     description: "Tropical mango and passion fruit blend",
     price: 6.49,
-    image: "/placeholder.svg?height=300&width=300",
+    image: "/mangopassionfruit.jpg?height=300&width=300",
     stock: 40,
     category: "fruit",
   },
@@ -280,7 +295,7 @@ const products: Product[] = [
     name: "Honey Oolong Tea",
     description: "Premium oolong tea with honey",
     price: 5.49,
-    image: "/placeholder.svg?height=300&width=300",
+    image: "/honeyoolongtea.jpg?height=300&width=300",
     stock: 30,
     category: "classic",
   },
@@ -289,7 +304,7 @@ const products: Product[] = [
     name: "Lychee Fruit Tea",
     description: "Refreshing lychee tea with fruit bits",
     price: 5.99,
-    image: "/placeholder.svg?height=300&width=300",
+    image: "/lycheefruittea.jpg?height=300&width=300",
     stock: 20,
     category: "fruit",
   },
@@ -298,7 +313,7 @@ const products: Product[] = [
     name: "Coconut Milk Tea",
     description: "Creamy coconut milk with black tea",
     price: 6.49,
-    image: "/placeholder.svg?height=300&width=300",
+    image: "/coconutmilktea.jpg?height=300&width=300",
     stock: 15,
     category: "specialty",
   },
@@ -307,7 +322,7 @@ const products: Product[] = [
     name: "Peach Oolong",
     description: "Sweet peach flavor with oolong tea",
     price: 5.99,
-    image: "/placeholder.svg?height=300&width=300",
+    image: "/peachoolongtea.jpg?height=300&width=300",
     stock: 25,
     category: "fruit",
   },
@@ -316,8 +331,56 @@ const products: Product[] = [
     name: "Chocolate Milk Tea",
     description: "Rich chocolate flavor with milk tea",
     price: 6.99,
-    image: "/placeholder.svg?height=300&width=300",
+    image: "/chocolatemilktea.jpg?height=300&width=300",
     stock: 5,
     category: "specialty",
+  },
+  {
+    id: 10,
+    name: "Caramel Macchiato",
+    description:
+      "Rich espresso blended with steamed milk and topped with caramel drizzle",
+    price: 4.75,
+    image: "/caramel-macchiato.jpg?height=300&width=300",
+    stock: 30,
+    category: "coffee",
+  },
+  {
+    id: 11,
+    name: "Iced Americano",
+    description: "Bold espresso shots poured over chilled water and ice",
+    price: 3.25,
+    image: "/iced-americano.jpg?height=300&width=300",
+    stock: 40,
+    category: "coffee",
+  },
+  {
+    id: 12,
+    name: "Vanilla Latte",
+    description:
+      "Smooth espresso with steamed milk and a hint of vanilla syrup",
+    price: 4.5,
+    image: "/vanilla-latte.jpg?height=300&width=300",
+    stock: 35,
+    category: "coffee",
+  },
+  {
+    id: 13,
+    name: "Mocha Frappe",
+    description: "Chocolatey blended coffee topped with whipped cream",
+    price: 5.0,
+    image: "/mocha-frappe.jpg?height=300&width=300",
+    stock: 20,
+    category: "coffee",
+  },
+  {
+    id: 14,
+    name: "Espresso Shot",
+    description:
+      "A strong and concentrated coffee shot for that quick caffeine kick",
+    price: 2.0,
+    image: "/espresso-shot.jpg?height=300&width=300",
+    stock: 50,
+    category: "coffee",
   },
 ];
