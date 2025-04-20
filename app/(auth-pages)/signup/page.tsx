@@ -25,12 +25,12 @@ export default async function Signup(props: {
   return (
     <div className="flex min-h-screen bg-white dark:bg-gray-950">
       {/* Left column - Image */}
-      <div className="hidden w-full max-w-md flex-col justify-between bg-muted p-10 lg:flex">
-        <div className="flex items-center gap-2">
+      <div className="hidden relative w-full max-w-md flex-col justify-between bg-muted p-10 lg:flex">
+        <div className="flex items-center gap-2 z-10">
           <Coffee className="h-6 w-6 text-orange-600" />
-          <span className="text-xl font-bold">Daily Dose</span>
+          <span className="text-xl font-bold text-white">Daily Dose</span>
         </div>
-        <div className="relative h-full flex-1">
+        <div className="absolute top-0 left-0 h-full w-full flex-1 z-0">
           <Image
             src="/auth.jpg?height=800&width=600"
             alt="Finance illustration"
@@ -39,8 +39,8 @@ export default async function Signup(props: {
             priority
           />
         </div>
-        <div>
-          <blockquote className="space-y-2">
+        <div className="z-10">
+          <blockquote className="space-y-2 text-white">
             <p className="text-lg">
               "The Daily Dose app makes ordering super easy and fast. It’s
               clean, reliable, and feels modern. I can place my orders in
@@ -110,7 +110,7 @@ export default async function Signup(props: {
             <div className="text-center text-sm">
               Already have an account?{" "}
               <Link
-                href="/login"
+                href="/signin"
                 className="font-medium text-orange-600 hover:underline dark:text-orange-400"
               >
                 Sign in
