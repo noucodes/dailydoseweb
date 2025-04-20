@@ -1,4 +1,6 @@
-import type React from "react";
+"use client";
+// app/login/page.tsx
+import { useSearchParams } from "next/navigation";
 import { signInAction } from "@/app/actions";
 import Link from "next/link";
 import Image from "next/image";
@@ -6,14 +8,32 @@ import { DollarSignIcon, Coffee } from "lucide-react";
 
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { FormMessage, Message } from "@/components/form-message";
 import { SubmitButton } from "@/components/submit-button";
 import { Password } from "@/components/password";
+import { FormMessage } from "@/components/form-message";
 
-export default async function LoginPage(props: {
-  searchParams: Promise<Message>;
+export default function LoginPage(props: {
+  searchParams: Promise<{ message: string }>;
 }) {
-  const searchParams = await props.searchParams;
+  const params = useSearchParams();
+
+  // Extract the 'message' and 'type' query parameters from the URL
+  const message = params.get("message");
+  const type = params.get("type");
+
+  // Prepare the message object based on the query params
+  let formMessage = undefined;
+
+  if (message) {
+    if (type === "success") {
+      formMessage = { success: message };
+    } else if (type === "error") {
+      formMessage = { error: message };
+    } else {
+      formMessage = { message }; // Default case
+    }
+  }
+
   return (
     <div className="flex min-h-screen bg-white dark:bg-gray-950">
       {/* Left column - Image */}
@@ -89,7 +109,9 @@ export default async function LoginPage(props: {
             >
               Sign in
             </SubmitButton>
-            <FormMessage message={searchParams} />
+
+            {/* Displaying the FormMessage */}
+            <FormMessage message={formMessage} />
 
             <div className="text-center text-sm">
               Don&apos;t have an account?{" "}
