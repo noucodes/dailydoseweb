@@ -8,7 +8,7 @@ export default function Home() {
   return (
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
-      <section className="w-full py-18 md:py-30 lg:py-40 bg-gradient-to-b from-orange-50 to-white">
+      <section className="w-full h-screen flex justify-center items-center bg-gradient-to-b from-orange-50 to-white">
         <div className="container mx-auto px-4 md:px-6">
           <div className="items-center flex flex-col justify-center space-y-4">
             <div className="space-y-3">
@@ -21,7 +21,7 @@ export default function Home() {
               </p>
             </div>
             <div className="flex flex-col gap-2 min-[400px]:flex-row">
-              <Link href="/menu">
+              <Link href="/signin">
                 <Button className="bg-orange-500 hover:bg-orange-600 cursor-pointer">
                   Order Now <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>

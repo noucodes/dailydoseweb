@@ -32,7 +32,7 @@ export default function MenuPage() {
   // Handle quantity change
   const handleQuantityChange = (productId: number, change: number) => {
     setQuantities((prev) => {
-      const currentQuantity = prev[productId] || 0;
+      const currentQuantity = prev[productId] || 1;
       const newQuantity = Math.max(0, currentQuantity + change);
       return { ...prev, [productId]: newQuantity };
     });
@@ -40,7 +40,7 @@ export default function MenuPage() {
 
   // Handle add to cart
   const handleAddToCart = (product: Product) => {
-    const quantity = quantities[product.id] || 0;
+    const quantity = quantities[product.id] || 1;
     if (quantity > 0) {
       for (let i = 0; i < quantity; i++) {
         addToCart(product);
@@ -92,7 +92,7 @@ export default function MenuPage() {
               <ProductCard
                 key={product.id}
                 product={product}
-                quantity={quantities[product.id] || 0}
+                quantity={quantities[product.id] || 1}
                 onQuantityChange={handleQuantityChange}
                 onAddToCart={handleAddToCart}
               />
@@ -106,7 +106,7 @@ export default function MenuPage() {
               <ProductCard
                 key={product.id}
                 product={product}
-                quantity={quantities[product.id] || 0}
+                quantity={quantities[product.id] || 1}
                 onQuantityChange={handleQuantityChange}
                 onAddToCart={handleAddToCart}
               />
@@ -120,7 +120,7 @@ export default function MenuPage() {
               <ProductCard
                 key={product.id}
                 product={product}
-                quantity={quantities[product.id] || 0}
+                quantity={quantities[product.id] || 1}
                 onQuantityChange={handleQuantityChange}
                 onAddToCart={handleAddToCart}
               />
@@ -134,7 +134,7 @@ export default function MenuPage() {
               <ProductCard
                 key={product.id}
                 product={product}
-                quantity={quantities[product.id] || 0}
+                quantity={quantities[product.id] || 1}
                 onQuantityChange={handleQuantityChange}
                 onAddToCart={handleAddToCart}
               />
@@ -148,7 +148,7 @@ export default function MenuPage() {
               <ProductCard
                 key={product.id}
                 product={product}
-                quantity={quantities[product.id] || 0}
+                quantity={quantities[product.id] || 1}
                 onQuantityChange={handleQuantityChange}
                 onAddToCart={handleAddToCart}
               />

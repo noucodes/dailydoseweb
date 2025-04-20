@@ -8,12 +8,17 @@ import Footer from "@/components/footer";
 import { CartProvider } from "@/components/cart-provider";
 import { Toaster } from "@/components/ui/toaster";
 
+const defaultUrl = process.env.VERCEL_URL
+  ? `https://${process.env.VERCEL_URL}`
+  : "http://localhost:3000";
+
 const fontSans = FontSans({
   subsets: ["latin"],
   variable: "--font-sans",
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(defaultUrl),
   title: "Daily Dose - Premium Beverage Shop",
   description: "Handcrafted Beverage made with love, served with joy!",
 };
@@ -31,14 +36,10 @@ export default function RootLayout({
           fontSans.variable
         )}
       >
-        <CartProvider>
-          <div className="relative flex min-h-screen flex-col">
-            <Header />
-            <div className="flex-1">{children}</div>
-            <Footer />
-          </div>
-          <Toaster />
-        </CartProvider>
+        <div className="relative flex min-h-screen flex-col">
+          <div className="flex-1">{children}</div>
+        </div>
+        <Toaster />
       </body>
     </html>
   );
