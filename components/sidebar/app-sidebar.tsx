@@ -16,7 +16,6 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar";
 import { SidebarLink } from "./nav-menu";
-// This is sample data.
 
 const iconMap: Record<string, React.ElementType> = {
   SquareMenu,
@@ -39,10 +38,18 @@ export function AppSidebar({
                 <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-orange-400 text-sidebar-primary-foreground">
                   <Coffee className="size-4 text-white" />
                 </div>
-                <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-semibold">Daily Dose</span>
-                  <span className="truncate text-xs">Incorporated</span>
-                </div>
+
+                {data.user.role == "admin" ? (
+                  <div className="grid flex-1 text-left text-sm leading-tight">
+                    <span className="truncate font-semibold">Daily Dose</span>
+                    <span className="truncate text-xs">Admin Dashboard</span>
+                  </div>
+                ) : (
+                  <div className="grid flex-1 text-left text-sm leading-tight">
+                    <span className="truncate font-semibold">Daily Dose</span>
+                    <span className="truncate text-xs">Incorporated</span>
+                  </div>
+                )}
               </a>
             </SidebarMenuButton>
           </SidebarMenuItem>
@@ -50,7 +57,11 @@ export function AppSidebar({
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Platform</SidebarGroupLabel>
+          {data.user.role == "admin" ? (
+            <SidebarGroupLabel>Admin Platform</SidebarGroupLabel>
+          ) : (
+            <SidebarGroupLabel>Platform</SidebarGroupLabel>
+          )}
           <SidebarMenu>
             {data.navMain.map(
               (item: { title: string; url: string; icon: string }) => (

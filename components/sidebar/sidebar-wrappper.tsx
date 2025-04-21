@@ -11,7 +11,7 @@ export default async function SidebarWrapper() {
 
   const { data: profile } = await supabase
     .from("profiles")
-    .select("username")
+    .select("username, role")
     .eq("id", user?.id)
     .single();
 
@@ -20,19 +20,39 @@ export default async function SidebarWrapper() {
       name: profile?.username ?? "Guest",
       email: user?.email ?? "unknown@example.com",
       avatar: "/avatars/shadcn.jpg",
+      role: profile?.role ?? "user",
     },
-    navMain: [
-      {
-        title: "Menu",
-        url: "/menu",
-        icon: "SquareMenu",
-      },
-      {
-        title: "Orders",
-        url: "/checkout",
-        icon: "Logs",
-      },
-    ],
+    navMain:
+      (profile?.role ?? "user") === "admin"
+        ? [
+            {
+              title: "Users",
+              url: "/menu",
+              icon: "Users",
+            },
+            {
+              title: "Orders",
+              url: "/checkout",
+              icon: "ListChecks",
+            },
+            {
+              title: "Stock",
+              url: "/checkout",
+              icon: "Archive",
+            },
+          ]
+        : [
+            {
+              title: "Menu",
+              url: "/menu",
+              icon: "SquareMenu",
+            },
+            {
+              title: "Orders",
+              url: "/checkout",
+              icon: "Logs",
+            },
+          ],
   };
 
   return <AppSidebar data={sidebarData} variant="inset" />;

@@ -1,13 +1,22 @@
 import React from "react";
-import { ChevronRight, Logs, SquareMenu, Coffee } from "lucide-react";
+import {
+  ChevronRight,
+  Users,
+  ListChecks,
+  Archive,
+  SquareMenu,
+  Logs,
+} from "lucide-react";
 import { SidebarMenuItem, SidebarMenuButton } from "@/components/ui/sidebar";
 import TotalItems from "../total-items";
 
 // Define the icons you'll use here
 const iconMap: Record<string, React.ElementType> = {
-  Logs,
+  Users,
+  ListChecks,
+  Archive,
   SquareMenu,
-  Coffee,
+  Logs,
   ChevronRight,
 };
 
