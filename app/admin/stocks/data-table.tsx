@@ -81,7 +81,7 @@ export function DataTable<TData, TValue>({
   });
 
   return (
-    <div className="">
+    <>
       <div className="flex justify-between px-4">
         <div className="flex items-center gap-2">
           <DropdownMenu>
@@ -353,6 +353,6 @@ export function DataTable<TData, TValue>({
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }

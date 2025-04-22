@@ -106,7 +106,7 @@ export const signInAction = async (formData: FormData) => {
   const password = formData.get("password") as string;
   const supabase = await createClient();
 
-  const { error } = await supabase.auth.signInWithPassword({
+  const { error, data } = await supabase.auth.signInWithPassword({
     email,
     password,
   });
@@ -115,7 +115,21 @@ export const signInAction = async (formData: FormData) => {
     return encodedRedirect("error", "/signin", error.message);
   }
 
-  return redirect("/menu");
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("username, role")
+    .eq("id", user?.id)
+    .single();
+
+  if (profile?.role === "admin") {
+    return redirect("/admin"); // Or "/admin-menu" if you want different routes
+  } else {
+    return redirect("/menu"); // Change as needed for other roles
+  }
 };
 
 export const forgotPasswordAction = async (formData: FormData) => {
@@ -255,5 +269,5 @@ export async function updateItem(formData: FormData) {
     console.error('Update failed:', error.message)
   }
 
-  return redirect("/signin");
+  return redirect("/admin/stocks");
 }

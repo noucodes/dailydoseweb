@@ -30,11 +30,11 @@ export default async function SidebarWrapper() {
               url: "/admin/users",
               icon: "Users",
             },
-            {
-              title: "Orders",
-              url: "/admin/orders",
-              icon: "ListChecks",
-            },
+            // {
+            //   title: "Orders",
+            //   url: "/admin/orders",
+            //   icon: "ListChecks",
+            // },
             {
               title: "Stock",
               url: "/admin/stocks",

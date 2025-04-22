@@ -52,7 +52,7 @@ import { Label } from "@/components/ui/label";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
-export type Payment = {
+export type Products = {
   id: number;
   image: string;
   name: string;
@@ -62,7 +62,7 @@ export type Payment = {
   stock: number;
 };
 
-export const columns: ColumnDef<Payment>[] = [
+export const columns: ColumnDef<Products>[] = [
   {
     accessorKey: "image",
     header: "Image",
@@ -159,6 +159,15 @@ export const columns: ColumnDef<Payment>[] = [
                 </DialogHeader>
                 <form action={updateItem} method="post">
                   <div className="grid gap-4 py-4">
+                    <Input
+                      id="id"
+                      name="id"
+                      type="text"
+                      className="col-span-3"
+                      value={row.original.id}
+                      hidden
+                      readOnly
+                    />
                     <div className="grid grid-cols-4 items-center gap-4">
                       <Label htmlFor="image" className="text-right">
                         Images
@@ -168,7 +177,6 @@ export const columns: ColumnDef<Payment>[] = [
                         name="image"
                         type="file"
                         className="col-span-3"
-                        required
                       />
                     </div>
                     <div className="grid grid-cols-4 items-center gap-4">
