@@ -27,17 +27,17 @@ export default async function SidebarWrapper() {
         ? [
             {
               title: "Users",
-              url: "/menu",
+              url: "/admin/users",
               icon: "Users",
             },
             {
               title: "Orders",
-              url: "/checkout",
+              url: "/admin/orders",
               icon: "ListChecks",
             },
             {
               title: "Stock",
-              url: "/checkout",
+              url: "/admin/stocks",
               icon: "Archive",
             },
           ]

@@ -5,6 +5,62 @@ import { createClient } from "@/utils/supabase/server";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
+export const addItemAction = async (formData: FormData) => {
+  const supabase = await createClient();
+
+  const name = formData.get("name")?.toString();
+  const description = formData.get("description")?.toString();
+  const price = parseFloat(formData.get("price") as string);
+  const stock = parseInt(formData.get("stock") as string, 10);
+  const category = formData.get("category")?.toString();
+  const imageFile = formData.get("image") as File;
+
+  if (!name || isNaN(price) || isNaN(stock)) {
+    return encodedRedirect("error", "/admin", "Invalid item data.");
+  }
+
+  let imageUrl = "";
+
+  if (imageFile && imageFile.size > 0) {
+    const fileName = `public/${imageFile.name}`;
+    const { data, error } = await supabase.storage
+      .from("menu") // make sure this bucket exists
+      .upload(fileName, imageFile, {
+        cacheControl: "3600",
+        upsert: false,
+      });
+
+    if (error) {
+      console.error("Image upload error:", error.message);
+      return encodedRedirect("error", "/admin", "Image upload failed.");
+    }
+
+    const {
+      data: { publicUrl },
+    } = supabase.storage.from("menu").getPublicUrl(fileName);
+
+    imageUrl = publicUrl;
+  }
+
+  const { error: insertError } = await supabase.from("items").insert([
+    {
+      name,
+      description,
+      price,
+      stock,
+      category,
+      image: imageUrl,
+    },
+  ]);
+
+  if (insertError) {
+    console.error("Insert item failed:", insertError.message);
+    return encodedRedirect("error", "/admin/stocks", "Failed to add item.");
+  }
+
+  return encodedRedirect("success", "/admin", "Item added successfully!");
+};
+
 export const signUpAction = async (formData: FormData) => {
   const email = formData.get("email")?.toString();
   const username = formData.get("username")?.toString();
@@ -138,3 +194,66 @@ export const signOutAction = async () => {
   await supabase.auth.signOut();
   return redirect("/signin");
 };
+
+export const deleteItem = async(itemId: number) => {
+  const supabase = await createClient();
+  const { error } = await supabase.from("items").delete().eq("id", itemId); // Use the item ID to delete it
+
+  if (error) {
+    console.error("Error deleting item:", error.message);
+  } else {
+    console.log("Item deleted successfully");
+    // Optionally, you may want to refetch the items or update state to reflect the change
+  }
+}
+
+export async function updateItem(formData: FormData) {
+  const supabase = await createClient();
+  const id = formData.get('id') as string
+  const name = formData.get('name') as string
+  const description = formData.get('description') as string
+  const price = parseFloat(formData.get('price') as string)
+  const category = formData.get('category') as string
+  const stock = parseInt(formData.get('stock') as string)
+  const file = formData.get('image') as File
+
+  // Optional: Handle image upload to Supabase Storage if the file is a new upload
+  let imageUrl = null
+
+  if (file && file.size > 0) {
+    const fileExt = file.name.split('.').pop()
+    const filePath = `menu/${Date.now()}.${fileExt}`
+
+    const { error: uploadError } = await supabase.storage
+      .from('menu')
+      .upload(filePath, file, {
+        contentType: file.type,
+        upsert: true,
+      })
+
+    if (uploadError) {
+      console.error('Upload error:', uploadError.message)
+      return
+    }
+
+    imageUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/menu/${filePath}`
+  }
+
+  const { data, error } = await supabase
+    .from('items') // make sure this is your correct table name
+    .update({
+      name,
+      description,
+      price,
+      category,
+      stock,
+      ...(imageUrl && { image: imageUrl }) // only update image if it was uploaded
+    })
+    .eq('id', id)
+
+  if (error) {
+    console.error('Update failed:', error.message)
+  }
+
+  return redirect("/signin");
+}

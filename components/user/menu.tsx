@@ -9,7 +9,28 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useCart } from "@/components/cart-provider";
 
-export default function MenuPage() {
+type Product = {
+  id: number;
+  name: string;
+  description: string;
+  price: number;
+  image: string;
+  stock: number;
+  category: string;
+};
+
+type ProductCardProps = {
+  product: Product;
+  quantity: number;
+  onQuantityChange: (productId: number, change: number) => void;
+  onAddToCart: (product: Product) => void;
+};
+
+type ProductListProps = {
+  products: Product[];
+};
+
+export default function Menu({ products }: ProductListProps) {
   const { addToCart } = useCart();
   const [searchQuery, setSearchQuery] = useState("");
   const [quantities, setQuantities] = useState<Record<number, number>>({});
@@ -160,23 +181,6 @@ export default function MenuPage() {
   );
 }
 
-type Product = {
-  id: number;
-  name: string;
-  description: string;
-  price: number;
-  image: string;
-  stock: number;
-  category: string;
-};
-
-type ProductCardProps = {
-  product: Product;
-  quantity: number;
-  onQuantityChange: (productId: number, change: number) => void;
-  onAddToCart: (product: Product) => void;
-};
-
 function ProductCard({
   product,
   quantity,
@@ -252,145 +256,3 @@ function ProductCard({
     </div>
   );
 }
-
-const products: Product[] = [
-  {
-    id: 1,
-    name: "Classic Brown Sugar",
-    description: "Our signature milk tea with brown sugar pearls",
-    price: 5.99,
-    image:
-      "https://lpvfwaujjeihddivstqm.supabase.co/storage/v1/object/public/menu/brownsugar.jpg",
-    stock: 50,
-    category: "classic",
-  },
-  {
-    id: 2,
-    name: "Taro Milk Tea",
-    description: "Creamy taro flavor with chewy pearls",
-    price: 6.49,
-    image:
-      "https://lpvfwaujjeihddivstqm.supabase.co/storage/v1/object/public/menu/taromilktea.jpg",
-    stock: 35,
-    category: "classic",
-  },
-  {
-    id: 3,
-    name: "Strawberry Matcha",
-    description: "Fresh strawberry with premium matcha",
-    price: 6.99,
-    image:
-      "https://lpvfwaujjeihddivstqm.supabase.co/storage/v1/object/public/menu/strawberrymatcha.jpg",
-    stock: 25,
-    category: "specialty",
-  },
-  {
-    id: 4,
-    name: "Mango Passion Fruit",
-    description: "Tropical mango and passion fruit blend",
-    price: 6.49,
-    image:
-      "https://lpvfwaujjeihddivstqm.supabase.co/storage/v1/object/public/menu/mangopassionfruit.jpg",
-    stock: 40,
-    category: "fruit",
-  },
-  {
-    id: 5,
-    name: "Honey Oolong Tea",
-    description: "Premium oolong tea with honey",
-    price: 5.49,
-    image:
-      "https://lpvfwaujjeihddivstqm.supabase.co/storage/v1/object/public/menu/honeyoolongtea.jpg",
-    stock: 30,
-    category: "classic",
-  },
-  {
-    id: 6,
-    name: "Lychee Fruit Tea",
-    description: "Refreshing lychee tea with fruit bits",
-    price: 5.99,
-    image:
-      "https://lpvfwaujjeihddivstqm.supabase.co/storage/v1/object/public/menu/lycheefruittea.jpg",
-    stock: 20,
-    category: "fruit",
-  },
-  {
-    id: 7,
-    name: "Coconut Milk Tea",
-    description: "Creamy coconut milk with black tea",
-    price: 6.49,
-    image:
-      "https://lpvfwaujjeihddivstqm.supabase.co/storage/v1/object/public/menu/coconutmilktea.jpg",
-    stock: 15,
-    category: "specialty",
-  },
-  {
-    id: 8,
-    name: "Peach Oolong",
-    description: "Sweet peach flavor with oolong tea",
-    price: 5.99,
-    image:
-      "https://lpvfwaujjeihddivstqm.supabase.co/storage/v1/object/public/menu/peachoolongtea.jpg",
-    stock: 25,
-    category: "fruit",
-  },
-  {
-    id: 9,
-    name: "Chocolate Milk Tea",
-    description: "Rich chocolate flavor with milk tea",
-    price: 6.99,
-    image:
-      "https://lpvfwaujjeihddivstqm.supabase.co/storage/v1/object/public/menu/chocolatemilktea.jpg",
-    stock: 5,
-    category: "specialty",
-  },
-  {
-    id: 10,
-    name: "Caramel Macchiato",
-    description:
-      "Rich espresso blended with steamed milk and topped with caramel drizzle",
-    price: 4.75,
-    image:
-      "https://lpvfwaujjeihddivstqm.supabase.co/storage/v1/object/public/menu/caramel-macchiato.jpg",
-    stock: 30,
-    category: "coffee",
-  },
-  {
-    id: 11,
-    name: "Iced Americano",
-    description: "Bold espresso shots poured over chilled water and ice",
-    price: 3.25,
-    image: "/iced-americano.jpg",
-    stock: 40,
-    category: "coffee",
-  },
-  {
-    id: 12,
-    name: "Vanilla Latte",
-    description:
-      "Smooth espresso with steamed milk and a hint of vanilla syrup",
-    price: 4.5,
-    image: "/vanilla-latte.jpg",
-    stock: 35,
-    category: "coffee",
-  },
-  {
-    id: 13,
-    name: "Mocha Frappe",
-    description: "Chocolatey blended coffee topped with whipped cream",
-    price: 5.0,
-    image: "/mocha-frappe.jpg",
-    stock: 20,
-    category: "coffee",
-  },
-  {
-    id: 14,
-    name: "Espresso Shot",
-    description:
-      "A strong and concentrated coffee shot for that quick caffeine kick",
-    price: 2.0,
-    image: "/espresso-shot.jpg",
-    stock: 50,
-    category: "coffee",
-  },
-];
