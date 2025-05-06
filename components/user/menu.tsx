@@ -189,10 +189,10 @@ function ProductCard({
 }: ProductCardProps) {
   const stockStatus =
     product.stock > 10
-      ? "In Stock"
+      ? `${product.stock} available`
       : product.stock > 0
       ? `Only ${product.stock} left`
-      : "Out of Stock";
+      : `${product.stock} left`;
 
   const stockColor =
     product.stock > 10
@@ -217,7 +217,7 @@ function ProductCard({
       <div className="flex flex-col space-y-2">
         <h3 className="text-xl font-bold text-orange-600">{product.name}</h3>
         <p className="text-sm text-gray-500">{product.description}</p>
-        <p className="font-bold text-orange-500">${product.price.toFixed(2)}</p>
+        <p className="font-bold text-orange-500">₱{product.price.toFixed(2)}</p>
 
         <div className="flex items-center justify-between mt-4">
           <div className="flex items-center border rounded-md">

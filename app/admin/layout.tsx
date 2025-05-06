@@ -44,6 +44,21 @@ export default async function Layout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const supabase = await createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("username, role")
+    .eq("id", user?.id)
+    .single();
+
+  if (!user || profile?.role !== "admin") {
+    return redirect("/signin");
+  }
   return (
     <CartProvider>
       <SidebarProvider>

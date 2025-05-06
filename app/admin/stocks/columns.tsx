@@ -92,7 +92,7 @@ export const columns: ColumnDef<Products>[] = [
         variant="outline"
         className="flex justify-center gap-2 px-2 text-muted-foreground [&_svg]:size-3 w-fit text-bold text-"
       >
-        $ {row.original.price}
+        ₱ {row.original.price}
       </Badge>
     ),
   },
