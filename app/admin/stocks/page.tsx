@@ -24,10 +24,15 @@ export default function Page() {
     fetchItems();
   }, []);
 
+  const totalStock = data.reduce((sum, item) => sum + (item.stock || 0), 0);
+
   if (loading) return <p className="p-4">Loading...</p>;
 
   return (
     <div className="container mx-auto pt-10">
+      <div className="total-items font-bold text-xl px-4">
+        Stock Left: {totalStock}
+      </div>
       <DataTable columns={columns} data={data} />
     </div>
   );

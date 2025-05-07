@@ -202,7 +202,7 @@ function ProductCard({
       : "bg-red-100 text-red-800";
 
   return (
-    <div className="flex flex-col rounded-xl border border-orange-100 bg-white p-4 shadow-sm transition-all hover:shadow-md">
+    <div className="flex flex-col rounded-xl border border-orange-100 bg-white p-4 shadow-sm transition-all hover:shadow-md hover:scale-103">
       <div className="relative aspect-square w-full overflow-hidden rounded-xl mb-4">
         <Image
           src={product.image || "/placeholder.svg"}
@@ -210,7 +210,10 @@ function ProductCard({
           fill={true}
           className="object-cover"
         />
-        <Badge className={`absolute top-2 right-2 ${stockColor}`}>
+        <Badge
+          className={`absolute top-2 right-2 ${stockColor}`}
+          variant="secondary"
+        >
           {stockStatus}
         </Badge>
       </div>
