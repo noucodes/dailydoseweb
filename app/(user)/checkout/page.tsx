@@ -131,7 +131,7 @@ export default function CheckoutPage() {
                   <div className="flex-1 flex flex-col">
                     <h4 className="font-medium">{item.name}</h4>
                     <p className="text-sm text-muted-foreground">
-                      ${item.price.toFixed(2)} each
+                      ₱{item.price.toFixed(2)} each
                     </p>
                     <div className="flex items-center mt-auto">
                       <div className="flex items-center border rounded-md">
@@ -165,7 +165,7 @@ export default function CheckoutPage() {
                   </div>
                   <div className="flex flex-col items-end">
                     <span className="font-medium">
-                      ${(item.price * item.quantity).toFixed(2)}
+                      ₱{(item.price * item.quantity).toFixed(2)}
                     </span>
                     <Button
                       variant="ghost"
@@ -184,20 +184,20 @@ export default function CheckoutPage() {
               <div className="space-y-1.5">
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Subtotal</span>
-                  <span>${subtotal.toFixed(2)}</span>
+                  <span>₱{subtotal.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Shipping</span>
-                  <span>${shipping.toFixed(2)}</span>
+                  <span>₱{shipping.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Tax</span>
-                  <span>${tax.toFixed(2)}</span>
+                  <span>₱{tax.toFixed(2)}</span>
                 </div>
                 <Separator className="my-2" />
                 <div className="flex justify-between font-medium">
                   <span>Total</span>
-                  <span>${total.toFixed(2)}</span>
+                  <span>₱{total.toFixed(2)}</span>
                 </div>
               </div>
             </div>
