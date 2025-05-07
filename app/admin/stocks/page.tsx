@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { Products, columns } from "./columns";
 import { DataTable } from "./data-table";
+import { RecentTable } from "./recent-table";
 import { createClient } from "@/utils/supabase/client"; // ✅ Client-side Supabase
 
 export default function Page() {
@@ -12,7 +13,10 @@ export default function Page() {
   useEffect(() => {
     const fetchItems = async () => {
       const supabase = createClient();
-      const { data, error } = await supabase.from("items").select("*");
+      const { data, error } = await supabase
+        .from("items")
+        .select("*")
+        .order("created_at", { ascending: false });
       if (error) {
         console.error("Failed to fetch items:", error.message);
       } else {
@@ -25,6 +29,7 @@ export default function Page() {
   }, []);
 
   const totalStock = data.reduce((sum, item) => sum + (item.stock || 0), 0);
+  const recentItems = data.slice(0, 5);
 
   if (loading) return <p className="p-4">Loading...</p>;
 
@@ -34,6 +39,10 @@ export default function Page() {
         Stock Left: {totalStock}
       </div>
       <DataTable columns={columns} data={data} />
+      <div>
+        <h2 className="text-xl font-semibold mb-2">Recently Added</h2>
+        <RecentTable columns={columns} data={recentItems} />
+      </div>
     </div>
   );
 }
