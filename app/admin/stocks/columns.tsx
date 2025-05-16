@@ -126,8 +126,7 @@ export const columns: ColumnDef<Products>[] = [
       const handleDelete = async (event: React.FormEvent) => {
         event.preventDefault();
         console.log("Deleting item ID:", itemId);
-        await deleteItem(itemId); // Call deleteItem with the itemId
-        // Optionally, refetch items or handle state changes after deletion
+        await deleteItem(itemId);
       };
       return (
         <DropdownMenu>

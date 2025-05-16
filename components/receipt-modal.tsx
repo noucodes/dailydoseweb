@@ -107,7 +107,7 @@ export default function ReceiptModal({
                   <span>
                     {item.quantity} × {item.name}
                   </span>
-                  <span>${(item.price * item.quantity).toFixed(2)}</span>
+                  <span>₱{(item.price * item.quantity).toFixed(2)}</span>
                 </div>
               ))}
             </div>
@@ -115,20 +115,20 @@ export default function ReceiptModal({
             <div className="mt-4 space-y-1 text-sm">
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Subtotal</span>
-                <span>${subtotal.toFixed(2)}</span>
+                <span>₱{subtotal.toFixed(2)}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Shipping</span>
-                <span>${shipping.toFixed(2)}</span>
+                <span>₱{shipping.toFixed(2)}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Tax</span>
-                <span>${tax.toFixed(2)}</span>
+                <span>₱{tax.toFixed(2)}</span>
               </div>
               <Separator className="my-2" />
               <div className="flex justify-between font-medium">
                 <span>Total</span>
-                <span>${total.toFixed(2)}</span>
+                <span>₱{total.toFixed(2)}</span>
               </div>
             </div>
           </div>

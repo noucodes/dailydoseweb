@@ -36,6 +36,7 @@ export default async function DemoPage() {
   return (
     <div className="container mx-auto pt-10">
       <DataTable columns={profileColumns} data={data} />
+      
     </div>
   );
 }

@@ -73,7 +73,7 @@ export const signUpAction = async (formData: FormData) => {
     return encodedRedirect(
       "error",
       "/signup",
-      "Email and password are required",
+      "Email and password are required"
     );
   }
 
@@ -82,7 +82,7 @@ export const signUpAction = async (formData: FormData) => {
     password,
     options: {
       emailRedirectTo: `${origin}/auth/callback`,
-      data:{
+      data: {
         username,
         phone,
       },
@@ -96,7 +96,7 @@ export const signUpAction = async (formData: FormData) => {
     return encodedRedirect(
       "success",
       "/signup",
-      "Thanks for signing up! Please check your email for a verification link.",
+      "Thanks for signing up! Please check your email for a verification link."
     );
   }
 };
@@ -151,7 +151,7 @@ export const forgotPasswordAction = async (formData: FormData) => {
     return encodedRedirect(
       "error",
       "/forgot-password",
-      "Could not reset password",
+      "Could not reset password"
     );
   }
 
@@ -162,7 +162,7 @@ export const forgotPasswordAction = async (formData: FormData) => {
   return encodedRedirect(
     "success",
     "/forgot-password",
-    "Check your email for a link to reset your password.",
+    "Check your email for a link to reset your password."
   );
 };
 
@@ -176,7 +176,7 @@ export const resetPasswordAction = async (formData: FormData) => {
     encodedRedirect(
       "error",
       "/protected/reset-password",
-      "Password and confirm password are required",
+      "Password and confirm password are required"
     );
   }
 
@@ -184,7 +184,7 @@ export const resetPasswordAction = async (formData: FormData) => {
     encodedRedirect(
       "error",
       "/protected/reset-password",
-      "Passwords do not match",
+      "Passwords do not match"
     );
   }
 
@@ -196,7 +196,7 @@ export const resetPasswordAction = async (formData: FormData) => {
     encodedRedirect(
       "error",
       "/protected/reset-password",
-      "Password update failed",
+      "Password update failed"
     );
   }
 
@@ -209,9 +209,9 @@ export const signOutAction = async () => {
   return redirect("/signin");
 };
 
-export const deleteItem = async(itemId: number) => {
+export const deleteItem = async (itemId: number) => {
   const supabase = await createClient();
-  const { error } = await supabase.from("items").delete().eq("id", itemId); // Use the item ID to delete it
+  const { error } = await supabase.from("items").delete().eq("id", itemId);
 
   if (error) {
     console.error("Error deleting item:", error.message);
@@ -219,55 +219,175 @@ export const deleteItem = async(itemId: number) => {
     console.log("Item deleted successfully");
     // Optionally, you may want to refetch the items or update state to reflect the change
   }
-}
+};
 
 export async function updateItem(formData: FormData) {
   const supabase = await createClient();
-  const id = formData.get('id') as string
-  const name = formData.get('name') as string
-  const description = formData.get('description') as string
-  const price = parseFloat(formData.get('price') as string)
-  const category = formData.get('category') as string
-  const stock = parseInt(formData.get('stock') as string)
-  const file = formData.get('image') as File
+  const id = formData.get("id") as string;
+  const name = formData.get("name") as string;
+  const description = formData.get("description") as string;
+  const price = parseFloat(formData.get("price") as string);
+  const category = formData.get("category") as string;
+  const stock = parseInt(formData.get("stock") as string);
+  const file = formData.get("image") as File;
 
   // Optional: Handle image upload to Supabase Storage if the file is a new upload
-  let imageUrl = null
+  let imageUrl = null;
 
   if (file && file.size > 0) {
-    const fileExt = file.name.split('.').pop()
-    const filePath = `menu/${Date.now()}.${fileExt}`
+    const fileExt = file.name.split(".").pop();
+    const filePath = `menu/${Date.now()}.${fileExt}`;
 
     const { error: uploadError } = await supabase.storage
-      .from('menu')
+      .from("menu")
       .upload(filePath, file, {
         contentType: file.type,
         upsert: true,
-      })
+      });
 
     if (uploadError) {
-      console.error('Upload error:', uploadError.message)
-      return
+      console.error("Upload error:", uploadError.message);
+      return;
     }
 
-    imageUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/menu/${filePath}`
+    imageUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/menu/${filePath}`;
   }
 
   const { data, error } = await supabase
-    .from('items') // make sure this is your correct table name
+    .from("items") // make sure this is your correct table name
     .update({
       name,
       description,
       price,
       category,
       stock,
-      ...(imageUrl && { image: imageUrl }) // only update image if it was uploaded
+      ...(imageUrl && { image: imageUrl }), // only update image if it was uploaded
     })
-    .eq('id', id)
+    .eq("id", id);
 
   if (error) {
-    console.error('Update failed:', error.message)
+    console.error("Update failed:", error.message);
   }
 
   return redirect("/admin/stocks");
 }
+
+export const saveOrderAction = async ({
+  formData,
+  cart,
+  subtotal,
+  shipping,
+  tax,
+  total,
+}: {
+  formData: {
+    name: string;
+    email: string;
+    phone: string;
+    address: string;
+    paymentMethod: string;
+  };
+  cart: {
+    id: number;
+    name: string;
+    price: number;
+    quantity: number;
+  }[];
+  subtotal: number;
+  shipping: number;
+  tax: number;
+  total: number;
+}) => {
+  const supabase = await createClient();
+
+  // Generate a unique order code (e.g., timestamp + random string)
+  const orderCode = `ORD-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
+
+  // Insert into orders table
+  const { data: orderData, error: orderError } = await supabase
+    .from("orders")
+    .insert([
+      {
+        order_code: orderCode,
+        user_name: formData.name,
+        status: "pending", // default status
+        total_price: total,
+      },
+    ])
+    .select()
+    .single();
+
+  if (orderError || !orderData) {
+    console.error("Order insert error:", orderError?.message);
+    return { success: false, message: "Failed to save order." };
+  }
+
+  type Item = {
+    id: string;
+    stock: number;
+    quantity: number;
+  };
+  for (const item of cart) {
+    // Get current stock
+    const { data: itemData, error: fetchError } = await supabase
+      .from("items")
+      .select("stock")
+      .eq("id", item.id)
+      .single();
+
+    console.log("To Update:", itemData);
+
+    if (fetchError || !itemData) {
+      console.error(
+        `Failed to fetch stock for item ${item.name}:`,
+        fetchError?.message
+      );
+      continue;
+    }
+
+    const newStock = itemData.stock - item.quantity;
+    console.log("newStock: ", newStock);
+
+    // Update stock
+    const { data: itemUpdate, error: updateError } = await supabase
+      .from("items")
+      .update({ stock: newStock })
+      .eq("id", item.id) // assuming item.id is a string UUID
+      .select(); // ensures we see updated data
+
+    if (updateError) {
+      console.error(
+        `Failed to update stock for item ID ${item.id}:`,
+        updateError.message
+      );
+    } else if (!itemUpdate || itemUpdate.length === 0) {
+      console.warn(`No item found with ID ${item.id}. No rows updated.`);
+    } else {
+      console.log(`Stock updated for item ID ${item.id}:`, itemUpdate[0]);
+    }
+    if (itemUpdate?.length === 0) {
+      console.warn(`RLS may be blocking the update. No rows returned.`);
+    }
+  }
+
+  // Prepare order_items
+  const orderItems = cart.map((item) => ({
+    order_id: orderData.id,
+    item_id: item.id,
+    item_name: item.name,
+    quantity: item.quantity,
+    unit_price: item.price,
+  }));
+
+  // Insert into order_items table
+  const { error: itemsError } = await supabase
+    .from("order_items")
+    .insert(orderItems);
+
+  if (itemsError) {
+    console.error("Order items insert error:", itemsError.message);
+    return { success: false, message: "Failed to save order items." };
+  }
+
+  return { success: true, message: "Order placed successfully!" };
+};
